@@ -1,5 +1,5 @@
 {
-  "name": "CombineDataset",
+  "name": "Flinders.Helpers.CombineDataset",
   "description": "A simple automation to help the RPA project team combine a series of files intto a single large dataset.",
   "main": "Main.xaml",
   "dependencies": {
