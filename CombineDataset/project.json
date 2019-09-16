@@ -11,7 +11,7 @@
   },
   "schemaVersion": "3.2",
   "studioVersion": "19.4.4.0",
-  "projectVersion": "1.0.0",
+  "projectVersion": "2.0.1",
   "runtimeOptions": {
     "exceptionHandlerWorkflow": "GlobalHandler.xaml",
     "autoDispose": false,
@@ -25,6 +25,10 @@
   "libraryOptions": {
     "includeOriginalXaml": false,
     "privateWorkflows": []
+  },
+  "arguments": {
+    "input": [],
+    "output": []
   },
   "webServices": []
 }
