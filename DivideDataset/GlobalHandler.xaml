@@ -1,11 +1,11 @@
 <Activity mc:Ignorable="sap sap2010" x:Class="GlobalHandler" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uico="http://schemas.uipath.com/workflow/activities/contracts" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
-    <x:Property Name="errorInfo" Type="InArgument(uico:ExceptionHandlerArgs)">
+    <x:Property sap2010:Annotation.AnnotationText="The exception caught by the Global Handler" Name="EerrorInfo" Type="InArgument(uico:ExceptionHandlerArgs)">
       <x:Property.Attributes>
         <RequiredArgumentAttribute />
       </x:Property.Attributes>
     </x:Property>
-    <x:Property Name="result" Type="OutArgument(uico:ErrorAction)">
+    <x:Property sap2010:Annotation.AnnotationText="A flag indicating the action to take after the exception is handled" Name="Result" Type="OutArgument(uico:ErrorAction)">
       <x:Property.Attributes>
         <RequiredArgumentAttribute />
       </x:Property.Attributes>
@@ -66,18 +66,14 @@
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
   <Sequence sap2010:Annotation.AnnotationText="This sequence steps in during execution when the project encounters an unmanaged error.&#xA;&#xA;Important: Arguments 'errorInfo' and 'result' should not be removed." DisplayName="Global Exception Handler" sap:VirtualizedContainerService.HintSize="336,780" sap2010:WorkflowViewState.IdRef="Sequence_1">
-    <Sequence.Variables>
-      <Variable x:TypeArguments="x:String" Name="answer" />
-      <Variable x:TypeArguments="x:Int32" Default="0" Name="retry" />
-    </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:LogMessage DisplayName="Log Error" sap:VirtualizedContainerService.HintSize="314,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Error" Message="[errorInfo.Exception.ToString]" />
-    <ui:MessageBox ChosenButton="{x:Null}" sap2010:Annotation.AnnotationText="Show a potentially helpful message to the user." Buttons="Ok" Caption="Error" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="314,86" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[String.Format(&quot;An error has occurred and this process cannot continue. Details:{0}{1}{2}&quot;, Environment.NewLine,  Environment.NewLine, errorInfo.Exception.Message)]" TopMost="True">
+    <ui:LogMessage DisplayName="Log Error" sap:VirtualizedContainerService.HintSize="314,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Error" Message="[EerrorInfo.Exception.ToString]" />
+    <ui:MessageBox ChosenButton="{x:Null}" sap2010:Annotation.AnnotationText="Show a potentially helpful message to the user." Buttons="Ok" Caption="Error" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="314,86" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[String.Format(&quot;An error has occurred and this process cannot continue. Details:{0}{1}{2}&quot;, Environment.NewLine,  Environment.NewLine, EerrorInfo.Exception.Message)]" TopMost="True">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
@@ -86,7 +82,7 @@
     </ui:MessageBox>
     <Assign sap2010:Annotation.AnnotationText="Choose the action to be taken when an error is ecountered during execution: &#xA;&#xA;Continue - The exception is re-thrown.&#xA;&#xA;Ignore - The exception is ignored, and the execution continues from the next activity.&#xA;&#xA;Retry - The activity which threw the exception is retried.&#xA;&#xA;Abort - The execution stops after running the current handler." DisplayName="Choose Next Behavior" sap:VirtualizedContainerService.HintSize="314,312" sap2010:WorkflowViewState.IdRef="Assign_4">
       <Assign.To>
-        <OutArgument x:TypeArguments="uico:ErrorAction">[result]</OutArgument>
+        <OutArgument x:TypeArguments="uico:ErrorAction">[Result]</OutArgument>
       </Assign.To>
       <Assign.Value>
         <InArgument x:TypeArguments="uico:ErrorAction">[ErrorAction.Abort]</InArgument>

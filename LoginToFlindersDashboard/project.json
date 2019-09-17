@@ -12,7 +12,7 @@
   },
   "schemaVersion": "3.2",
   "studioVersion": "19.4.4.0",
-  "projectVersion": "2.0.1",
+  "projectVersion": "2.0.2",
   "runtimeOptions": {
     "exceptionHandlerWorkflow": "GlobalHandler.xaml",
     "autoDispose": false,
