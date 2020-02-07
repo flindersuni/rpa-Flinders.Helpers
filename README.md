@@ -1,6 +1,8 @@
 <!-- markdownlint-disable no-trailing-punctuation -->
 # Flinders.Helpers #
 
+[![Build Status](https://travis-ci.org/flindersuni/rpa-Flinders.Helpers.svg?branch=master)](https://travis-ci.org/flindersuni/rpa-Flinders.Helpers)
+
 This repository contains a small number of [UiPath][uipath] projects. They help
 the Robotic Process Automation (RPA) team at [Flinders University][flinders]
 manage their tasks.
