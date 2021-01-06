@@ -1,4 +1,19 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Main" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="879,4310" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property sap2010:Annotation.AnnotationText="The full path to the input file" Name="InputFilePath" Type="InArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="The number of records to put into each output file." Name="SelectedRecordsetSize" Type="InArgument(x:String)" />
+  </x:Members>
+  <this:Main.InputFilePath>
+    <InArgument x:TypeArguments="x:String" />
+  </this:Main.InputFilePath>
+  <this:Main.SelectedRecordsetSize>
+    <InArgument x:TypeArguments="x:String" />
+  </this:Main.SelectedRecordsetSize>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>982,6001</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
       <x:String>System.Activities</x:String>
@@ -23,6 +38,9 @@
       <x:String>UiPath.Core.Activities</x:String>
       <x:String>System.Windows.Markup</x:String>
       <x:String>System.Xml.Serialization</x:String>
+      <x:String>System.Activities.DynamicUpdate</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
     </sco:Collection>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -45,6 +63,13 @@
       <AssemblyReference>System.ServiceModel</AssemblyReference>
       <AssemblyReference>System.ValueTuple</AssemblyReference>
       <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
   <sap:WorkflowViewStateService.ViewState>
@@ -53,10 +78,8 @@
       <x:Boolean x:Key="ShouldExpandAll">True</x:Boolean>
     </scg:Dictionary>
   </sap:WorkflowViewStateService.ViewState>
-  <Sequence sap2010:Annotation.AnnotationText="A simple automation to help the RPA project team divide a single large dataset into smaller files for processing by a bot." sap:VirtualizedContainerService.HintSize="859,4210" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="A simple automation to help the RPA project team divide a single large dataset into smaller files for processing by a bot." sap:VirtualizedContainerService.HintSize="859,5796" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
-      <Variable x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="The full path to the input file" Name="inputFilePath" />
-      <Variable x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="The number of records to put into each output file." Name="selectedRecordsetSize" />
       <Variable x:TypeArguments="sd:DataTable" sap2010:Annotation.AnnotationText="A DataTable of all recods in the source file" Name="sourceDataTable" />
       <Variable x:TypeArguments="x:Int32" sap2010:Annotation.AnnotationText="Keep track of the current batch number." Name="batchNumberCount" />
       <Variable x:TypeArguments="x:Int32" sap2010:Annotation.AnnotationText="The number of records in the current batch." Name="recordCount" />
@@ -72,14 +95,69 @@
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:SelectFile sap2010:Annotation.AnnotationText="Select the input file that contains the large dataset." DisplayName="Select File" Filter="Text files (*.csv)|*.csv" sap:VirtualizedContainerService.HintSize="817,64" sap2010:WorkflowViewState.IdRef="SelectFile_1" SelectedFile="[inputFilePath]">
+    <If sap2010:Annotation.AnnotationText="Check if a value was passed into InputFilePath." Condition="[InputFilePath = Nothing]" sap:VirtualizedContainerService.HintSize="817,712" sap2010:WorkflowViewState.IdRef="If_2">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
-    </ui:SelectFile>
-    <Sequence sap2010:Annotation.AnnotationText="Initialise variables" sap:VirtualizedContainerService.HintSize="817,744" sap2010:WorkflowViewState.IdRef="Sequence_7">
+      <If.Then>
+        <Sequence sap2010:Annotation.AnnotationText="If no value was passed into InputFilePath then launch a 'Select File' dialog box to select one." sap:VirtualizedContainerService.HintSize="376,533" sap2010:WorkflowViewState.IdRef="Sequence_8">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:LogMessage sap2010:Annotation.AnnotationText="Log a message to indicate that no value was passed into InputFilePath." DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,133" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Flinders.Helpers.DivideDataset &gt;&gt; no value provided for _PassedInputFilePath_&quot;]">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </ui:LogMessage>
+          <ui:SelectFile sap2010:Annotation.AnnotationText="Select the input file that contains the large dataset." DisplayName="Select File" Filter="Text files (*.csv)|*.csv" sap:VirtualizedContainerService.HintSize="334,64" sap2010:WorkflowViewState.IdRef="SelectFile_1" SelectedFile="[inputFilePath]">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </ui:SelectFile>
+          <ui:LogMessage sap2010:Annotation.AnnotationText="Log the value of InputFilePath." DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,122" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info" Message="[&quot;Flinders.Helpers.DivideDataset &gt;&gt; value of _inputFilePath_ is: &quot; + inputFilePath]">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </ui:LogMessage>
+        </Sequence>
+      </If.Then>
+      <If.Else>
+        <Sequence sap2010:Annotation.AnnotationText="Otherwise if a value was passed into InputFilePath, log that this occured and log its value." sap:VirtualizedContainerService.HintSize="376,429" sap2010:WorkflowViewState.IdRef="Sequence_9">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:LogMessage sap2010:Annotation.AnnotationText="Log a message to indicate that a value was passed into InputFilePath." DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,133" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Warn" Message="[&quot;Flinders.Helpers.DivideDataset &gt;&gt; a value has been provided for _PassedInputFilepath_&quot;]">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </ui:LogMessage>
+          <ui:LogMessage sap2010:Annotation.AnnotationText="Log the value of InputFilePath." DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,122" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[&quot;Flinders.Helpers.DivideDataset &gt;&gt; value of _inputFilePath_ is: &quot; + inputFilePath]">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </ui:LogMessage>
+        </Sequence>
+      </If.Else>
+    </If>
+    <Sequence sap2010:Annotation.AnnotationText="Initialise variables" sap:VirtualizedContainerService.HintSize="817,760" sap2010:WorkflowViewState.IdRef="Sequence_7">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -112,7 +190,7 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </Assign>
-      <Assign sap2010:Annotation.AnnotationText="Assign an appropriate initial value" sap:VirtualizedContainerService.HintSize="262,87" sap2010:WorkflowViewState.IdRef="Assign_15">
+      <Assign sap2010:Annotation.AnnotationText="Assign an appropriate initial value" sap:VirtualizedContainerService.HintSize="262,91" sap2010:WorkflowViewState.IdRef="Assign_15">
         <Assign.To>
           <OutArgument x:TypeArguments="x:Int32">[batchNumberCount]</OutArgument>
         </Assign.To>
@@ -125,7 +203,7 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </Assign>
-      <Assign sap2010:Annotation.AnnotationText="Assign an appropriate initial value" sap:VirtualizedContainerService.HintSize="262,87" sap2010:WorkflowViewState.IdRef="Assign_16">
+      <Assign sap2010:Annotation.AnnotationText="Assign an appropriate initial value" sap:VirtualizedContainerService.HintSize="262,91" sap2010:WorkflowViewState.IdRef="Assign_16">
         <Assign.To>
           <OutArgument x:TypeArguments="x:Int32">[recordCount]</OutArgument>
         </Assign.To>
@@ -138,7 +216,7 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </Assign>
-      <Assign sap2010:Annotation.AnnotationText="Assign an appropriate initial value" sap:VirtualizedContainerService.HintSize="262,87" sap2010:WorkflowViewState.IdRef="Assign_17">
+      <Assign sap2010:Annotation.AnnotationText="Assign an appropriate initial value" sap:VirtualizedContainerService.HintSize="262,91" sap2010:WorkflowViewState.IdRef="Assign_17">
         <Assign.To>
           <OutArgument x:TypeArguments="x:Int32">[outputFileCount]</OutArgument>
         </Assign.To>
@@ -152,16 +230,71 @@
         </sap:WorkflowViewStateService.ViewState>
       </Assign>
     </Sequence>
-    <ui:InputDialog sap2010:Annotation.AnnotationText="Prompt for the number of records to be put into each output file." DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="817,134" sap2010:WorkflowViewState.IdRef="InputDialog_1" IsPassword="False" Label="How many records are to be put into each output file?" Options="[{&quot;10&quot;, &quot;25&quot;, &quot;50&quot;, &quot;100&quot;}]" Title="Output file size">
-      <ui:InputDialog.Result>
-        <OutArgument x:TypeArguments="x:String">[selectedRecordsetSize]</OutArgument>
-      </ui:InputDialog.Result>
+    <If sap2010:Annotation.AnnotationText="Check if a value was passed into SelectedRecordsetSize." Condition="[SelectedRecordsetSize = Nothing]" sap:VirtualizedContainerService.HintSize="817,981" sap2010:WorkflowViewState.IdRef="If_3">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
-    </ui:InputDialog>
+      <If.Then>
+        <Sequence sap2010:Annotation.AnnotationText="If no value was passed into PassedSelectedRecordsetSize then launch a 'Select File' dialog box to select one." sap:VirtualizedContainerService.HintSize="376,802" sap2010:WorkflowViewState.IdRef="Sequence_10">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:LogMessage sap2010:Annotation.AnnotationText="Log a message to indicate that no value was passed into PassedSelectedRecordsetSize." DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,133" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info" Message="[&quot;Flinders.Helpers.DivideDataset &gt;&gt; no value for _PassedSelectedRecordsetSize_&quot;]">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </ui:LogMessage>
+          <ui:InputDialog OptionsString="{x:Null}" sap2010:Annotation.AnnotationText="Prompt for the number of records to be put into each output file." DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="334,333" sap2010:WorkflowViewState.IdRef="InputDialog_1" IsPassword="False" Label="How many records are to be put into each output file?" Options="[{&quot;10&quot;, &quot;25&quot;, &quot;50&quot;, &quot;100&quot;}]" Title="Output file size">
+            <ui:InputDialog.Result>
+              <OutArgument x:TypeArguments="x:String">[selectedRecordsetSize]</OutArgument>
+            </ui:InputDialog.Result>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </ui:InputDialog>
+          <ui:LogMessage sap2010:Annotation.AnnotationText="Log the value of PassedSelectedRecordsetSize." DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,122" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info" Message="[&quot;Flinders.Helpers.DivideDataset &gt;&gt; value of _selectedRecordsetSize_ is: &quot; + selectedRecordsetSize]">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </ui:LogMessage>
+        </Sequence>
+      </If.Then>
+      <If.Else>
+        <Sequence sap2010:Annotation.AnnotationText="Otherwise if a value was passed into PassedSelectedRecordsetSize, log that this occured and log its value." sap:VirtualizedContainerService.HintSize="376,444" sap2010:WorkflowViewState.IdRef="Sequence_11">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:LogMessage sap2010:Annotation.AnnotationText="Log a message to indicate that a value was passed into PassedSelectedRecordsetSize." DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,133" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="Info" Message="[&quot;Flinders.Helpers.DivideDataset &gt;&gt; no value for _PassedSelectedRecordsetSize_&quot;]">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </ui:LogMessage>
+          <ui:LogMessage sap2010:Annotation.AnnotationText="Log the value of PassedSelectedRecordsetSize." DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,122" sap2010:WorkflowViewState.IdRef="LogMessage_9" Level="Info" Message="[&quot;Flinders.Helpers.DivideDataset &gt;&gt; value of _selectedRecordsetSize_ is: &quot; + selectedRecordsetSize]">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </ui:LogMessage>
+        </Sequence>
+      </If.Else>
+    </If>
     <Assign sap2010:Annotation.AnnotationText="Convert the string representing the number of output records into an integer to support comparison in a loop later in the sequence." sap:VirtualizedContainerService.HintSize="817,132" sap2010:WorkflowViewState.IdRef="Assign_9">
       <Assign.To>
         <OutArgument x:TypeArguments="x:Int32">[outputRecordsetSize]</OutArgument>
@@ -175,7 +308,7 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </Assign>
-    <ui:ReadCsvFile Encoding="{x:Null}" sap2010:Annotation.AnnotationText="Read the input file into a datatable." DataTable="[sourceDataTable]" Delimitator="Comma" DisplayName="Read CSV" FilePath="[inputFilePath]" sap:VirtualizedContainerService.HintSize="817,179" sap2010:WorkflowViewState.IdRef="ReadCsvFile_1">
+    <ui:ReadCsvFile Encoding="{x:Null}" sap2010:Annotation.AnnotationText="Read the input file into a datatable." DataTable="[sourceDataTable]" Delimitator="Comma" DisplayName="Read CSV" FilePath="[inputFilePath]" sap:VirtualizedContainerService.HintSize="817,183" sap2010:WorkflowViewState.IdRef="ReadCsvFile_1">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
@@ -189,7 +322,7 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </ui:AddDataColumn>
-    <InvokeMethod sap2010:Annotation.AnnotationText="Move the BatchNumber column to the start of the DataTable. So it appears in the right place in the output files" DisplayName="Invoke Method" sap:VirtualizedContainerService.HintSize="817,204" sap2010:WorkflowViewState.IdRef="InvokeMethod_1" MethodName="SetOrdinal">
+    <InvokeMethod sap2010:Annotation.AnnotationText="Move the BatchNumber column to the start of the DataTable. So it appears in the right place in the output files" DisplayName="Invoke Method" sap:VirtualizedContainerService.HintSize="817,206" sap2010:WorkflowViewState.IdRef="InvokeMethod_1" MethodName="SetOrdinal">
       <InvokeMethod.TargetObject>
         <InArgument x:TypeArguments="sd:DataColumn">[sourceDataTable.Columns("BatchNumber")]</InArgument>
       </InvokeMethod.TargetObject>
@@ -213,34 +346,34 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </Assign>
-    <ui:ForEachRow CurrentIndex="{x:Null}" sap2010:Annotation.AnnotationText="Buid a series of output files, each containing the required number of records" DataTable="[sourceDataTable]" DisplayName="For Each Row" sap:VirtualizedContainerService.HintSize="817,1433" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
+    <ui:ForEachRow CurrentIndex="{x:Null}" sap2010:Annotation.AnnotationText="Buid a series of output files, each containing the required number of records" DataTable="[sourceDataTable]" DisplayName="For Each Row" sap:VirtualizedContainerService.HintSize="817,1453" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
       <ui:ForEachRow.Body>
         <ActivityAction x:TypeArguments="sd:DataRow">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
           </ActivityAction.Argument>
-          <Sequence sap2010:Annotation.AnnotationText="Process the records in the larger dataset in sequence" DisplayName="DataTable Loop" sap:VirtualizedContainerService.HintSize="767,1258" sap2010:WorkflowViewState.IdRef="Sequence_5">
+          <Sequence sap2010:Annotation.AnnotationText="Process the records in the larger dataset in sequence" DisplayName="DataTable Loop" sap:VirtualizedContainerService.HintSize="767,1274" sap2010:WorkflowViewState.IdRef="Sequence_5">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                 <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <If sap2010:Annotation.AnnotationText="Are there records that need to be added to a batch?" Condition="[recordCount &lt; outputRecordsetSize]" sap:VirtualizedContainerService.HintSize="725,1139" sap2010:WorkflowViewState.IdRef="If_1">
+            <If sap2010:Annotation.AnnotationText="Are there records that need to be added to a batch?" Condition="[recordCount &lt; outputRecordsetSize]" sap:VirtualizedContainerService.HintSize="725,1151" sap2010:WorkflowViewState.IdRef="If_1">
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
               <If.Then>
-                <Sequence sap2010:Annotation.AnnotationText="Add the record to a batch of records" sap:VirtualizedContainerService.HintSize="304,368" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                <Sequence sap2010:Annotation.AnnotationText="Add the record to a batch of records" sap:VirtualizedContainerService.HintSize="304,376" sap2010:WorkflowViewState.IdRef="Sequence_3">
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                       <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                       <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
                     </scg:Dictionary>
                   </sap:WorkflowViewStateService.ViewState>
-                  <Assign sap2010:Annotation.AnnotationText="Add the batch number to the row " sap:VirtualizedContainerService.HintSize="262,87" sap2010:WorkflowViewState.IdRef="Assign_2">
+                  <Assign sap2010:Annotation.AnnotationText="Add the batch number to the row " sap:VirtualizedContainerService.HintSize="262,91" sap2010:WorkflowViewState.IdRef="Assign_2">
                     <Assign.To>
                       <OutArgument x:TypeArguments="x:Object">[row.Item("BatchNumber")]</OutArgument>
                     </Assign.To>
@@ -265,7 +398,7 @@
                 </Sequence>
               </If.Then>
               <If.Else>
-                <Sequence sap2010:Annotation.AnnotationText="Output a batch of records" sap:VirtualizedContainerService.HintSize="376,964" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                <Sequence sap2010:Annotation.AnnotationText="Output a batch of records" sap:VirtualizedContainerService.HintSize="376,972" sap2010:WorkflowViewState.IdRef="Sequence_4">
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                       <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -303,7 +436,7 @@
                     </Assign.Value>
                   </Assign>
                   <ui:ClearDataTable DataTable="[outputDataTable]" DisplayName="Clear Data Table" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="ClearDataTable_1" />
-                  <Assign sap2010:Annotation.AnnotationText="Add the batch number to the row " sap:VirtualizedContainerService.HintSize="314,87" sap2010:WorkflowViewState.IdRef="Assign_11">
+                  <Assign sap2010:Annotation.AnnotationText="Add the batch number to the row " sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="Assign_11">
                     <Assign.To>
                       <OutArgument x:TypeArguments="x:Object">[row.Item("BatchNumber")]</OutArgument>
                     </Assign.To>
@@ -316,8 +449,8 @@
                       </scg:Dictionary>
                     </sap:WorkflowViewStateService.ViewState>
                   </Assign>
-                  <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[row.ItemArray]" DataTable="[outputDataTable]" DisplayName="Add Data Row" sap:VirtualizedContainerService.HintSize="314,22" sap2010:WorkflowViewState.IdRef="AddDataRow_3" />
-                  <Assign sap:VirtualizedContainerService.HintSize="314,60" sap2010:WorkflowViewState.IdRef="Assign_12">
+                  <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[row.ItemArray]" DataTable="[outputDataTable]" DisplayName="Add Data Row" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="AddDataRow_3" />
+                  <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_12">
                     <Assign.To>
                       <OutArgument x:TypeArguments="x:Int32">[recordCount]</OutArgument>
                     </Assign.To>
@@ -339,15 +472,15 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </ui:ForEachRow>
-    <Sequence sap2010:Annotation.AnnotationText="Output the last batch of records" sap:VirtualizedContainerService.HintSize="677,380" sap2010:WorkflowViewState.IdRef="Sequence_6">
+    <Sequence sap2010:Annotation.AnnotationText="Output the last batch of records" sap:VirtualizedContainerService.HintSize="817,417" sap2010:WorkflowViewState.IdRef="Sequence_6">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
           <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
-      <ui:WriteCsvFile Encoding="{x:Null}" AddHeaders="True" DataTable="[outputDataTable]" Delimitator="Comma" DisplayName="Write CSV" FilePath="[System.IO.Path.Combine(outputFolderPath, String.Format(&quot;{0}-{1,0:D3}.csv&quot;, baseOutputFileName, batchNumberCount))]" sap:VirtualizedContainerService.HintSize="314,87" sap2010:WorkflowViewState.IdRef="WriteCsvFile_2" />
-      <Assign sap2010:Annotation.AnnotationText="Keep a track of the number of files created" sap:VirtualizedContainerService.HintSize="314,102" sap2010:WorkflowViewState.IdRef="Assign_14">
+      <ui:WriteCsvFile Encoding="{x:Null}" AddHeaders="True" DataTable="[outputDataTable]" Delimitator="Comma" DisplayName="Write CSV" FilePath="[System.IO.Path.Combine(outputFolderPath, String.Format(&quot;{0}-{1,0:D3}.csv&quot;, baseOutputFileName, batchNumberCount))]" sap:VirtualizedContainerService.HintSize="334,152" sap2010:WorkflowViewState.IdRef="WriteCsvFile_2" />
+      <Assign sap2010:Annotation.AnnotationText="Keep a track of the number of files created" sap:VirtualizedContainerService.HintSize="334,102" sap2010:WorkflowViewState.IdRef="Assign_14">
         <Assign.To>
           <OutArgument x:TypeArguments="x:Int32">[outputFileCount]</OutArgument>
         </Assign.To>
@@ -361,14 +494,14 @@
         </sap:WorkflowViewStateService.ViewState>
       </Assign>
     </Sequence>
-    <ui:MessageBox ChosenButton="{x:Null}" sap2010:Annotation.AnnotationText="Inform the user of the success of the process" Buttons="Ok" Caption="Success" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="677,86" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[String.Format(&quot;Process complete. {0} files were successfully created.&quot;, outputFileCount)]" TopMost="True">
+    <ui:MessageBox ChosenButton="{x:Null}" sap2010:Annotation.AnnotationText="Inform the user of the success of the process" Buttons="Ok" Caption="Success" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="817,90" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[String.Format(&quot;Process complete. {0} files were successfully created.&quot;, outputFileCount)]" TopMost="True">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </ui:MessageBox>
-    <ui:StartProcess WorkingDirectory="{x:Null}" sap2010:Annotation.AnnotationText="Open windows explorer in the output folder path" Arguments="[outputFolderPath]" DisplayName="Start Process" FileName="C:\Windows\explorer.exe" sap:VirtualizedContainerService.HintSize="677,114" sap2010:WorkflowViewState.IdRef="StartProcess_1">
+    <ui:StartProcess WorkingDirectory="{x:Null}" sap2010:Annotation.AnnotationText="Open windows explorer in the output folder path" Arguments="[outputFolderPath]" DisplayName="Start Process" FileName="C:\Windows\explorer.exe" sap:VirtualizedContainerService.HintSize="817,118" sap2010:WorkflowViewState.IdRef="StartProcess_1">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
