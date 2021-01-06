@@ -8,7 +8,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>982,1439</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>982,1264</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
@@ -62,7 +62,6 @@
       <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
       <AssemblyReference>UiPath.Excel</AssemblyReference>
       <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
-      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
   <Flowchart sap2010:Annotation.AnnotationText="A simple automation to help the RPA project team login to the Flinders Dashboard using stored credentials." sap:VirtualizedContainerService.HintSize="634,1059" sap2010:WorkflowViewState.IdRef="Flowchart_1">
@@ -144,7 +143,7 @@
                       <av:PointCollection x:Key="ConnectorLocation">300,674 300,723.5</av:PointCollection>
                     </scg:Dictionary>
                   </sap:WorkflowViewStateService.ViewState>
-                  <ui:CheckFalse sap2010:Annotation.AnnotationText="Check to make sure a credential name was supplied by the user" DisplayName="Check False" ErrorMessage="An Okta environment must be selected." Expression="[oktaEnvironment Is Nothing]" sap:VirtualizedContainerService.HintSize="200,108" sap2010:WorkflowViewState.IdRef="CheckFalse_3">
+                  <ui:CheckFalse sap2010:Annotation.AnnotationText="Check to make sure an Okta environment was supplied by the user" DisplayName="Check False" ErrorMessage="An Okta environment must be selected." Expression="[oktaEnvironment Is Nothing]" sap:VirtualizedContainerService.HintSize="200,108" sap2010:WorkflowViewState.IdRef="CheckFalse_3">
                     <sap:WorkflowViewStateService.ViewState>
                       <scg:Dictionary x:TypeArguments="x:String, x:Object">
                         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -178,10 +177,10 @@
                           </f:LoginToOktaDashboard>
                         </TryCatch.Try>
                         <TryCatch.Catches>
-                          <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+                          <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="400,507" sap2010:WorkflowViewState.IdRef="Catch`1_1">
                             <sap:WorkflowViewStateService.ViewState>
                               <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                 <x:Boolean x:Key="IsPinned">False</x:Boolean>
                               </scg:Dictionary>
                             </sap:WorkflowViewStateService.ViewState>
@@ -189,22 +188,22 @@
                               <ActivityAction.Argument>
                                 <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
                               </ActivityAction.Argument>
-                              <Sequence sap2010:Annotation.AnnotationText="Handle any exceptions gracefully." sap:VirtualizedContainerService.HintSize="356,434" sap2010:WorkflowViewState.IdRef="Sequence_1">
+                              <Sequence sap2010:Annotation.AnnotationText="Handle any exceptions gracefully." sap:VirtualizedContainerService.HintSize="376,438" sap2010:WorkflowViewState.IdRef="Sequence_1">
                                 <sap:WorkflowViewStateService.ViewState>
                                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                     <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
                                   </scg:Dictionary>
                                 </sap:WorkflowViewStateService.ViewState>
-                                <ui:LogMessage sap2010:Annotation.AnnotationText="Log the exception as an error" DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="314,118" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Error" Message="[exception.ToString()]">
+                                <ui:LogMessage sap2010:Annotation.AnnotationText="Log the exception as an error" DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,122" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Error" Message="[exception.ToString()]">
                                   <sap:WorkflowViewStateService.ViewState>
                                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                       <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
                                     </scg:Dictionary>
                                   </sap:WorkflowViewStateService.ViewState>
                                 </ui:LogMessage>
-                                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="314,91" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Error" Message="[String.Format(&quot;Login attempt to the '{0}' Flinders dashboard with '{1}' credential failed.&quot;, oktaEnvironment, credentialName)]" />
-                                <f:ThrowBusinessRuleException sap:VirtualizedContainerService.HintSize="314,22" sap2010:WorkflowViewState.IdRef="ThrowBusinessRuleException_1" Message="[String.Format(&quot;Login attempt unsuccessful.{0}{1}&quot;, Environment.NewLine, exception.Message)]" TakeScreenshot="False" />
+                                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Error" Message="[String.Format(&quot;Login attempt to the '{0}' Flinders dashboard with '{1}' credential failed.&quot;, oktaEnvironment, credentialName)]" />
+                                <f:ThrowBusinessRuleException sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="ThrowBusinessRuleException_1" Message="[String.Format(&quot;Login attempt unsuccessful.{0}{1}&quot;, Environment.NewLine, exception.Message)]" TakeScreenshot="False" />
                               </Sequence>
                             </ActivityAction>
                           </Catch>
