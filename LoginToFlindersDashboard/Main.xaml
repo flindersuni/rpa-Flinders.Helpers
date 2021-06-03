@@ -1,15 +1,4 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Main" this:Main.credentialName="StudentSystem" this:Main.oktaEnvironment="Production" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:f="clr-namespace:Flinders_Foundation;assembly=Flinders.Foundation" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <x:Members>
-    <x:Property sap2010:Annotation.AnnotationText="The name of the credential to use in Okta for logging onto Okta. The &quot;StudentSystem&quot; credential is okay for development, testing and production." Name="credentialName" Type="InArgument(x:String)" />
-    <x:Property sap2010:Annotation.AnnotationText="Identifies the Okta environment to access. Use either &quot;Production&quot; or &quot;Test&quot;. Seems only Production seems to work. Note the &quot;Production&quot; Okta environment is okay for use in development and testing." Name="oktaEnvironment" Type="InArgument(x:String)" />
-    <x:Property sap2010:Annotation.AnnotationText="The message returned by the LoginToOktaDashboard activity." Name="loginProcessMessage" Type="OutArgument(x:String)" />
-    <x:Property sap2010:Annotation.AnnotationText="The process success flag returned by the LoginToOktaDashboard activity." Name="loginProcessSuccessful" Type="OutArgument(x:Boolean)" />
-  </x:Members>
-  <mva:VisualBasic.Settings>
-    <x:Null />
-  </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>982,1264</sap:VirtualizedContainerService.HintSize>
-  <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="919,1723" sap2010:WorkflowViewState.IdRef="Main_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:fr="clr-namespace:Flinders_Foundation.rpa_Flinders_Foundation;assembly=Flinders.Foundation" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
       <x:String>System.Activities</x:String>
@@ -33,7 +22,14 @@
       <x:String>UiPath.Core</x:String>
       <x:String>UiPath.Core.Activities</x:String>
       <x:String>System.Windows.Markup</x:String>
-      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Runtime.InteropServices</x:String>
+      <x:String>Flinders_Foundation.rpa_Flinders_Foundation</x:String>
+      <x:String>System.Security</x:String>
+      <x:String>System.Activities.DynamicUpdate</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>UiPath.UIAutomationNext.Enums</x:String>
     </sco:Collection>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -42,6 +38,7 @@
       <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
       <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
       <AssemblyReference>System</AssemblyReference>
       <AssemblyReference>System.Drawing</AssemblyReference>
       <AssemblyReference>System.Core</AssemblyReference>
@@ -53,193 +50,98 @@
       <AssemblyReference>System.Xaml</AssemblyReference>
       <AssemblyReference>UiPath.System.Activities</AssemblyReference>
       <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
-      <AssemblyReference>System.ServiceModel</AssemblyReference>
-      <AssemblyReference>System.ValueTuple</AssemblyReference>
       <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
-      <AssemblyReference>UiPath.Mail</AssemblyReference>
-      <AssemblyReference>System.Memory</AssemblyReference>
-      <AssemblyReference>UiPath.OCR.Activities.Design</AssemblyReference>
-      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
-      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
       <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>Flinders.Foundation</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Flowchart sap2010:Annotation.AnnotationText="A simple automation to help the RPA project team login to the Flinders Dashboard using stored credentials." sap:VirtualizedContainerService.HintSize="634,1059" sap2010:WorkflowViewState.IdRef="Flowchart_1">
+  <Sequence sap2010:Annotation.AnnotationText="A simple automation to help the RPA project team login to the Flinders Dashboard using credentials stored in Orchestrator." DisplayName="Main" sap:VirtualizedContainerService.HintSize="376,1658" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="The name of the credential asset that the user wants to use" Name="credentialName" />
+      <Variable x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="The name of the Okta environment to access" Name="oktaEnvironment" />
+      <Variable x:TypeArguments="s:String[]" sap2010:Annotation.AnnotationText="A list of okta environments" Name="oktaEnvironments">
+        <Variable.Default>
+          <mva:VisualBasicValue x:TypeArguments="s:String[]" ExpressionText="{}{&quot;Production&quot;, &quot;Test&quot;}" />
+        </Variable.Default>
+      </Variable>
+      <Variable x:TypeArguments="x:Boolean" sap2010:Annotation.AnnotationText="A flag indicating if the process was successful or not" Name="processSuccessful" />
+      <Variable x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="A message related to the status of the process" Name="processMessage" />
+    </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-        <av:Point x:Key="ShapeLocation">270,2.5</av:Point>
-        <av:Size x:Key="ShapeSize">60,75</av:Size>
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
-        <av:PointCollection x:Key="ConnectorLocation">300,77.5 300,106</av:PointCollection>
-        <x:Double x:Key="Height">992.032</x:Double>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <Flowchart.StartNode>
-      <x:Reference>__ReferenceID5</x:Reference>
-    </Flowchart.StartNode>
-    <FlowStep x:Name="__ReferenceID5">
+    <ui:InputDialog Options="{x:Null}" OptionsString="{x:Null}" sap2010:Annotation.AnnotationText="Show a dialog asking for the name of the credential asset" DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="334,280" sap2010:WorkflowViewState.IdRef="InputDialog_1" IsPassword="False" Label="Enter the name of the credential asset you want to use" Title="Credential">
+      <ui:InputDialog.Result>
+        <OutArgument x:TypeArguments="x:String">[credentialName]</OutArgument>
+      </ui:InputDialog.Result>
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
-          <av:Point x:Key="ShapeLocation">200,106</av:Point>
-          <av:Size x:Key="ShapeSize">200,108</av:Size>
-          <av:PointCollection x:Key="ConnectorLocation">300,214 300,284.5</av:PointCollection>
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
-      <ui:CheckFalse sap2010:Annotation.AnnotationText="Check to make sure a credential name was supplied by the user" DisplayName="Check False" ErrorMessage="The name of a credential must be supplied." Expression="[credentialName Is Nothing]" sap:VirtualizedContainerService.HintSize="200,108" sap2010:WorkflowViewState.IdRef="CheckFalse_1">
-        <sap:WorkflowViewStateService.ViewState>
-          <scg:Dictionary x:TypeArguments="x:String, x:Object">
-            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
-          </scg:Dictionary>
-        </sap:WorkflowViewStateService.ViewState>
-      </ui:CheckFalse>
-      <FlowStep.Next>
-        <FlowStep x:Name="__ReferenceID1">
-          <sap:WorkflowViewStateService.ViewState>
-            <scg:Dictionary x:TypeArguments="x:String, x:Object">
-              <av:Point x:Key="ShapeLocation">169,284.5</av:Point>
-              <av:Size x:Key="ShapeSize">262,91</av:Size>
-              <av:PointCollection x:Key="ConnectorLocation">300,375.5 300,416</av:PointCollection>
-            </scg:Dictionary>
-          </sap:WorkflowViewStateService.ViewState>
-          <Assign sap2010:Annotation.AnnotationText="Filter the user supplied credential name" sap:VirtualizedContainerService.HintSize="262,91" sap2010:WorkflowViewState.IdRef="Assign_2">
-            <Assign.To>
-              <OutArgument x:TypeArguments="x:String">[credentialName]</OutArgument>
-            </Assign.To>
-            <Assign.Value>
-              <InArgument x:TypeArguments="x:String">[credentialName.Trim()]</InArgument>
-            </Assign.Value>
-            <sap:WorkflowViewStateService.ViewState>
-              <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
-              </scg:Dictionary>
-            </sap:WorkflowViewStateService.ViewState>
-          </Assign>
-          <FlowStep.Next>
-            <FlowStep x:Name="__ReferenceID0">
-              <sap:WorkflowViewStateService.ViewState>
-                <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                  <av:Point x:Key="ShapeLocation">200,416</av:Point>
-                  <av:Size x:Key="ShapeSize">200,108</av:Size>
-                  <av:PointCollection x:Key="ConnectorLocation">300,524 300,566</av:PointCollection>
-                </scg:Dictionary>
-              </sap:WorkflowViewStateService.ViewState>
-              <ui:CheckFalse sap2010:Annotation.AnnotationText="Second check to make sure a credential name was supplied by the user" DisplayName="Check False" ErrorMessage="The name of a credential must be supplied." Expression="[credentialName = String.Empty]" sap:VirtualizedContainerService.HintSize="200,108" sap2010:WorkflowViewState.IdRef="CheckFalse_2">
-                <sap:WorkflowViewStateService.ViewState>
-                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
-                  </scg:Dictionary>
-                </sap:WorkflowViewStateService.ViewState>
-              </ui:CheckFalse>
-              <FlowStep.Next>
-                <FlowStep x:Name="__ReferenceID2">
-                  <sap:WorkflowViewStateService.ViewState>
-                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                      <av:Point x:Key="ShapeLocation">200,566</av:Point>
-                      <av:Size x:Key="ShapeSize">200,108</av:Size>
-                      <av:PointCollection x:Key="ConnectorLocation">300,674 300,723.5</av:PointCollection>
-                    </scg:Dictionary>
-                  </sap:WorkflowViewStateService.ViewState>
-                  <ui:CheckFalse sap2010:Annotation.AnnotationText="Check to make sure an Okta environment was supplied by the user" DisplayName="Check False" ErrorMessage="An Okta environment must be selected." Expression="[oktaEnvironment Is Nothing]" sap:VirtualizedContainerService.HintSize="200,108" sap2010:WorkflowViewState.IdRef="CheckFalse_3">
-                    <sap:WorkflowViewStateService.ViewState>
-                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
-                      </scg:Dictionary>
-                    </sap:WorkflowViewStateService.ViewState>
-                  </ui:CheckFalse>
-                  <FlowStep.Next>
-                    <FlowStep x:Name="__ReferenceID3">
-                      <sap:WorkflowViewStateService.ViewState>
-                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                          <av:Point x:Key="ShapeLocation">200,723.5</av:Point>
-                          <av:Size x:Key="ShapeSize">200,93</av:Size>
-                          <av:PointCollection x:Key="ConnectorLocation">300,816.5 300,853.5</av:PointCollection>
-                        </scg:Dictionary>
-                      </sap:WorkflowViewStateService.ViewState>
-                      <TryCatch sap2010:Annotation.AnnotationText="Try to login to the Okta Dashboard" DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="200,93" sap2010:WorkflowViewState.IdRef="TryCatch_2">
-                        <sap:WorkflowViewStateService.ViewState>
-                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
-                          </scg:Dictionary>
-                        </sap:WorkflowViewStateService.ViewState>
-                        <TryCatch.Try>
-                          <f:LoginToOktaDashboard ActiveBrowser="{x:Null}" sap2010:Annotation.AnnotationText="Attempt to login to the Flinders Dashboard (Okta)" CredentialName="[credentialName]" Environment="[oktaEnvironment.ToLower()]" sap:VirtualizedContainerService.HintSize="200,64" sap2010:WorkflowViewState.IdRef="LoginToOktaDashboard_3" ProcessMessage="[loginProcessMessage]" ProcessSuccessful="[loginProcessSuccessful]">
-                            <sap:WorkflowViewStateService.ViewState>
-                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
-                              </scg:Dictionary>
-                            </sap:WorkflowViewStateService.ViewState>
-                          </f:LoginToOktaDashboard>
-                        </TryCatch.Try>
-                        <TryCatch.Catches>
-                          <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="400,507" sap2010:WorkflowViewState.IdRef="Catch`1_1">
-                            <sap:WorkflowViewStateService.ViewState>
-                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
-                              </scg:Dictionary>
-                            </sap:WorkflowViewStateService.ViewState>
-                            <ActivityAction x:TypeArguments="s:Exception">
-                              <ActivityAction.Argument>
-                                <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
-                              </ActivityAction.Argument>
-                              <Sequence sap2010:Annotation.AnnotationText="Handle any exceptions gracefully." sap:VirtualizedContainerService.HintSize="376,438" sap2010:WorkflowViewState.IdRef="Sequence_1">
-                                <sap:WorkflowViewStateService.ViewState>
-                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
-                                  </scg:Dictionary>
-                                </sap:WorkflowViewStateService.ViewState>
-                                <ui:LogMessage sap2010:Annotation.AnnotationText="Log the exception as an error" DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,122" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Error" Message="[exception.ToString()]">
-                                  <sap:WorkflowViewStateService.ViewState>
-                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
-                                    </scg:Dictionary>
-                                  </sap:WorkflowViewStateService.ViewState>
-                                </ui:LogMessage>
-                                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Error" Message="[String.Format(&quot;Login attempt to the '{0}' Flinders dashboard with '{1}' credential failed.&quot;, oktaEnvironment, credentialName)]" />
-                                <f:ThrowBusinessRuleException sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="ThrowBusinessRuleException_1" Message="[String.Format(&quot;Login attempt unsuccessful.{0}{1}&quot;, Environment.NewLine, exception.Message)]" TakeScreenshot="False" />
-                              </Sequence>
-                            </ActivityAction>
-                          </Catch>
-                        </TryCatch.Catches>
-                      </TryCatch>
-                      <FlowStep.Next>
-                        <FlowStep x:Name="__ReferenceID4">
-                          <sap:WorkflowViewStateService.ViewState>
-                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                              <av:Point x:Key="ShapeLocation">200,853.5</av:Point>
-                              <av:Size x:Key="ShapeSize">200,93</av:Size>
-                            </scg:Dictionary>
-                          </sap:WorkflowViewStateService.ViewState>
-                          <ui:LogMessage sap2010:Annotation.AnnotationText="Log an informational message about login success" DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="200,93" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="[String.Format(&quot;Login attempt to the '{0}' Flinders dashboard with '{1}' credential was successful.&quot;, oktaEnvironment, credentialName)]">
-                            <sap:WorkflowViewStateService.ViewState>
-                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
-                              </scg:Dictionary>
-                            </sap:WorkflowViewStateService.ViewState>
-                          </ui:LogMessage>
-                        </FlowStep>
-                      </FlowStep.Next>
-                    </FlowStep>
-                  </FlowStep.Next>
-                </FlowStep>
-              </FlowStep.Next>
-            </FlowStep>
-          </FlowStep.Next>
-        </FlowStep>
-      </FlowStep.Next>
-    </FlowStep>
-    <x:Reference>__ReferenceID0</x:Reference>
-    <x:Reference>__ReferenceID1</x:Reference>
-    <x:Reference>__ReferenceID2</x:Reference>
-    <x:Reference>__ReferenceID3</x:Reference>
-    <x:Reference>__ReferenceID4</x:Reference>
-  </Flowchart>
+    </ui:InputDialog>
+    <ui:CheckFalse sap2010:Annotation.AnnotationText="Check to ensure a credential asset name was supplied" DisplayName="Check False" ErrorMessage="A credential name must be supplied" Expression="[String.IsNullOrWhiteSpace(credentialName)]" sap:VirtualizedContainerService.HintSize="334,118" sap2010:WorkflowViewState.IdRef="CheckFalse_1">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:CheckFalse>
+    <Assign sap2010:Annotation.AnnotationText="Filter the user supplied credential name" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[credentialName]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[credentialName.Trim()]</InArgument>
+      </Assign.Value>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </Assign>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Trace" Message="[String.Format(&quot;Credential name from user '{0}'&quot;, credentialName)]" />
+    <ui:InputDialog OptionsString="{x:Null}" DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="334,291" sap2010:WorkflowViewState.IdRef="InputDialog_2" IsPassword="False" Label="Select the Okta environment to use" Options="[oktaEnvironments]" Title="Okta environment">
+      <ui:InputDialog.Result>
+        <OutArgument x:TypeArguments="x:String">[oktaEnvironment]</OutArgument>
+      </ui:InputDialog.Result>
+    </ui:InputDialog>
+    <Assign sap2010:Annotation.AnnotationText="Filter the Okta environment" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="Assign_2">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[oktaEnvironment]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[oktaEnvironment.ToLower()]</InArgument>
+      </Assign.Value>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </Assign>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Trace" Message="[String.Format(&quot;Selected Okta environment '{0}'&quot;, oktaEnvironment)]" />
+    <fr:LoginToOktaDashboard ActiveBrowser="{x:Null}" CredentialName="[credentialName]" Environment="[oktaEnvironment]" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="LoginToOktaDashboard_1" ProcessMessage="[processMessage]" ProcessSuccessful="[processSuccessful]" />
+    <ui:CheckTrue sap2010:Annotation.AnnotationText="If the login process was not successful, throw an exception" DisplayName="Check True" ErrorMessage="[processMessage]" Expression="[processSuccessful]" sap:VirtualizedContainerService.HintSize="334,129" sap2010:WorkflowViewState.IdRef="CheckTrue_2">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:CheckTrue>
+  </Sequence>
 </Activity>
