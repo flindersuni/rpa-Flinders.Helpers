@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Convenience package for invoking the rpa-lint app on the Flinders.Helpers processes",
   "scripts": {
-    "test": "rpa-lint -i ./CombineDataset/ -r -q && rpa-lint -i ./DivideDataset/ -r -q && rpa-lint -i ./LoginToFlindersDashboard/ -r -q"
+    "test": "rpa-lint -r -q -i ./CombineDataset/ && rpa-lint -r -q -i ./DivideDataset/ && rpa-lint -r -q -i ./LoginToFlindersDashboard/"
   },
   "repository": {
     "type": "git",
