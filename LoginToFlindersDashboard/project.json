@@ -3,12 +3,11 @@
   "description": "A simple automation to help the RPA project team login to the Flinders Dashboard using stored credentials.",
   "main": "Main.xaml",
   "dependencies": {
-    "Flinders.Foundation": "2.1.0",
-    "UiPath.Credentials.Activities": "1.1.6479.13204",
-    "UiPath.Excel.Activities": "[2.9.3]",
-    "UiPath.Mail.Activities": "[1.9.3]",
-    "UiPath.System.Activities": "[20.10.1]",
-    "UiPath.UIAutomation.Activities": "[20.10.6]"
+    "Flinders.Foundation": "2.1.1",
+    "UiPath.Excel.Activities": "[2.10.4]",
+    "UiPath.Mail.Activities": "[1.10.4]",
+    "UiPath.System.Activities": "[21.4.1]",
+    "UiPath.UIAutomation.Activities": "[21.4.4]"
   },
   "webServices": [],
   "entitiesStores": [],
@@ -56,12 +55,13 @@
   "entryPoints": [
     {
       "filePath": "Main.xaml",
-      "uniqueId": "b99a26f4-9570-4961-b43b-58d766979d76",
+      "uniqueId": "25d81d9a-706c-4ac1-ac83-e3d9c5cda3d0",
       "input": [],
       "output": []
     }
   ],
   "isTemplate": false,
   "templateProjectData": {},
-  "publishData": {}
+  "publishData": {},
+  "targetFramework": "Legacy"
 }
